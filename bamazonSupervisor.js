@@ -43,7 +43,16 @@ function mainMenu() {
 
 // Shows all sales, sorted by department
 function viewSalesByDept() {
+    var query = "SELECT departments.department_id, departments.department_name, departments.over_head_costs, ";
+    query += "sum(products.product_sales) AS product_sales, (sum(products.product_sales) - departments.over_head_costs) AS total_profit "
+    query += "FROM departments INNER JOIN products ON departments.department_name = products.department_name ";
+    query += "GROUP BY (departments.department_id);"
 
+    connection.query(query, function(err, res) {
+        if (err) throw err;
+        console.table(res);
+        mainMenu();
+    });
 }
 
 // Creates a new department in the table
