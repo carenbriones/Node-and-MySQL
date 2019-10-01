@@ -38,6 +38,7 @@ function mainMenu() {
                 addToInventory();
                 break;
             case "Add New Product":
+                addNewProduct();
                 break;
             case "Exit":
                 connection.end();
@@ -102,4 +103,37 @@ function addToInventory() {
             })
         }
     )
+}
+
+function addNewProduct() {
+    inquirer.prompt([{
+            name: "productName",
+            message: "What is the name of the product?",
+            type: "input"
+        },
+        {
+            name: "departmentName",
+            message: "What department is this product in?",
+            type: "input"
+        },
+        {
+            name: "price",
+            message: "How much does this product cost?",
+            type: "number"
+        },
+        {
+            name: "quantity",
+            message: "How many are in stock?",
+            type: "number"
+        }
+    ]).then(function(inquirerResponse) {
+        var query = "INSERT INTO products (product_name, department_name, price, stock_quantity) ";
+        query += "VALUES (?, ?, ?, ?)"
+        connection.query(query, [inquirerResponse.productName, inquirerResponse.departmentName, inquirerResponse.price, inquirerResponse.quantity],
+            function(err, res) {
+                if (err) throw err;
+                console.log("Your item has successfully been added to the inventory.");
+                mainMenu();
+            })
+    })
 }
