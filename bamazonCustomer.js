@@ -57,7 +57,7 @@ function mainMenu() {
 
                             // Update quantity of item in table
                             connection.query(
-                                "UPDATE products SET stock_quantity = ? WHERE item_id = ?", [remainingQuantity, inquirerResponse.item],
+                                "UPDATE products SET stock_quantity = ?, product_sales = product_sales + ? WHERE item_id = ?", [remainingQuantity, cost, inquirerResponse.item],
                                 function(err, res) {
                                     if (err) throw err;
                                     console.log("Your order has been fulfilled.")

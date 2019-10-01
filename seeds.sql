@@ -10,3 +10,13 @@ VALUES
     ("iPhone X/XS Screen Protector, 3-Pack", "Cell Phones & Accessories", 8.99, 6),
     ("Makeup Brush Set, 12-Pack", "Beauty & Personal Care", 18.50, 13),
     ("Sherpa Blanket", "Home & Kitchen", 19.99, 5);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES
+	("Electronics", 30),
+    ("Movies & TV", 10),
+    ("Home & Kitchen", 12),
+    ("Office Supplies", 10),
+    ("Beauty & Personal Care", 5),
+    ("Garden & Outdoor", 8),
+    ("Cell Phones & Accessories", 7);
