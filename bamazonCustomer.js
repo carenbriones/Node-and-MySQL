@@ -20,7 +20,6 @@ function mainMenu() {
         "SELECT * FROM products",
         function(err, res) {
             if (err) throw err;
-            console.log(res);
             var items = [];
 
             // Creates value + name objects to use for inquirer choices

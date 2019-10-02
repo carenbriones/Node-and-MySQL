@@ -72,7 +72,6 @@ function addToInventory() {
         "SELECT * FROM products",
         function(err, res) {
             if (err) throw err;
-            console.log(res);
             var items = [];
 
             // Creates value + name objects for inquirer choices
