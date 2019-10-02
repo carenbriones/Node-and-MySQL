@@ -3,14 +3,8 @@ var mysql = require("mysql");
 
 var connection = mysql.createConnection({
     host: "localhost",
-
-    // Your port; if not 3306
     port: 3306,
-
-    // Your username
     user: "root",
-
-    // Your password
     password: "password",
     database: "bamazon"
 });
@@ -27,6 +21,7 @@ function mainMenu() {
         type: "list",
         choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product", "Exit"]
     }]).then(function(inquirerResponse) {
+
         switch (inquirerResponse.command) {
             case "View Products for Sale":
                 viewAllProducts();
@@ -47,6 +42,7 @@ function mainMenu() {
     })
 }
 
+// Logs all products in the database
 function viewAllProducts() {
     connection.query(
         "SELECT * FROM products",
@@ -58,6 +54,7 @@ function viewAllProducts() {
     )
 }
 
+// Logs all products that have an inventory count less than 5
 function viewLowInventory() {
     connection.query(
         "SELECT * FROM products WHERE stock_quantity < 5",
@@ -69,15 +66,16 @@ function viewLowInventory() {
     )
 }
 
+// Adds a
 function addToInventory() {
     connection.query(
-        // Gets all products
         "SELECT * FROM products",
         function(err, res) {
             if (err) throw err;
             console.log(res);
             var items = [];
 
+            // Creates value + name objects for inquirer choices
             for (var i = 0; i < res.length; i++) {
                 items.push({ value: res[i].item_id, name: res[i].product_name });
             }
@@ -92,6 +90,7 @@ function addToInventory() {
                 type: "number",
                 message: "How many units would you like to add?"
             }]).then(function(inquirerResponse) {
+                // Adds units to existing stock_quantity field
                 connection.query(
                     "UPDATE products SET stock_quantity = stock_quantity + ? WHERE item_id = ?", [inquirerResponse.quantity, inquirerResponse.item],
                     function(err, res) {
@@ -105,6 +104,7 @@ function addToInventory() {
     )
 }
 
+// Adds a new product to the database
 function addNewProduct() {
     inquirer.prompt([{
             name: "productName",
@@ -127,6 +127,7 @@ function addNewProduct() {
             type: "number"
         }
     ]).then(function(inquirerResponse) {
+        // Inserts product into database
         var query = "INSERT INTO products (product_name, department_name, price, stock_quantity) ";
         query += "VALUES (?, ?, ?, ?)"
         connection.query(query, [inquirerResponse.productName, inquirerResponse.departmentName, inquirerResponse.price, inquirerResponse.quantity],

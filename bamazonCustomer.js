@@ -3,14 +3,8 @@ var mysql = require("mysql");
 
 var connection = mysql.createConnection({
     host: "localhost",
-
-    // Your port; if not 3306
     port: 3306,
-
-    // Your username
     user: "root",
-
-    // Your password
     password: "password",
     database: "bamazon"
 });
@@ -29,6 +23,7 @@ function mainMenu() {
             console.log(res);
             var items = [];
 
+            // Creates value + name objects to use for inquirer choices
             for (var i = 0; i < res.length; i++) {
                 items.push({ value: res[i].item_id, name: res[i].product_name });
             }
